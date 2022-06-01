@@ -1,6 +1,7 @@
 # 介绍
 
 Jin-microservices是基于 php 语言 + hyperf 微服务 框架的完整微服务demo。
+github地址:https://github.com/Double-Jin/jin-microservices
 
 # 关于 JM
 
@@ -30,8 +31,9 @@ JM 是一款基于 php 语言 + hyperf 微服务 框架编写的完整微服务d
 * 分布式事务
 
 # 准备
-微服务是把单体应用进行分拆后的架构，分拆后带来的问题通过引用第三方组件来解决，安装部署这些组件的时候你将会遇到很多奇奇怪怪的问题。为减低难度，本项目大量采用docker来安装，即便如此还是会存在如http/tcp访问、端口、内存、docker版本等问题，同样的操作换了台电脑就可能出问题，这需要你自行解决。
-- 能提供空闲4核8G资源的电脑
+微服务是把单体应用进行分拆后的架构，分拆后带来的问题通过引用第三方组件来解决，安装部署这些组件的时候你将会遇到很多奇奇怪怪的问题。为减低难度，本项目大部分组件采用docker来安装，整体流程我已在不同的电脑上验证数遍，即便如此还是会存在如composer、github、http/tcp访问、端口、内存、docker版本等问题，同样的操作换了台电脑就可能出问题，这需要你跟据报错内容查找相关资料自行解决。
+
+- 8核16G电脑
 - 熟悉docker
 - 了解网络协议
 - 基本的运维能力
@@ -72,26 +74,33 @@ ELK
     vm.max_map_count=262144
     #查看结果
     sysctl -p
-  2.docker run -p 5601:5601 -p 9200:9200 、
-  -p 5044:5044 -itd --name elk sebp/elk:780
+  2.docker run -p 5601:5601 -p 9200:9200 -p 5044:5044 -itd --name elk sebp/elk:7.17.1
   3.docker exec -it elk bin/bash
   4.cd /etc/logstash/conf.d
-    vi logstash.conf
-    input {
-        tcp {
-            port => 5044
-        }
-    }
-    output {
-      elasticsearch {
-        action => "index"
-        hosts => ["localhost"]
-        index => "jm-log"
-      }
-    }
-  5.docker restart elk
-  6.测试http://39.108.236.73:9200
-  7.访问http://39.108.236.73:5601/app/kibana
+  5.vim logstash.conf
+		  input {
+			  beats {
+				port => 5044
+				codec => plain { charset => "UTF-8" }
+			  }
+		  }
+			# 格式化日志
+		  filter {
+			  grok {
+				  match => [ "message","\[%{TIMESTAMP_ISO8601:logtime}\] %{WORD:env}\.(?<level>[A-Z]{4,5})\: %{GREEDYDATA:msg}}" ]
+				  }
+		   }
+		   output {
+				elasticsearch {
+					 action => "index"
+					 hosts => ["localhost"]
+					 index => "jm-log"
+				 }
+			}
+  6.rm 02-beats-input.conf  10-syslog.conf  11-nginx.conf  30-output.conf
+  7.docker restart elk
+  8.测试http://39.108.236.73:9200
+  9.访问http://39.108.236.73:5601/app/kibana
 ```
 
 Filebeat
@@ -141,7 +150,7 @@ DTM
 hyperf/hyperf:8.0-alpine-v3.15-swoole-v4.8 
 2.docker exec -it hyperf /bin/bash
 3.cd /data/project/
-4.git clone https://gitee.com/ljj96/jin-microservices.git
+4.git clone https://github.com/Double-Jin/jin-microservices.git
 5.cd jin-microservices/api-gateway/
     composer update
     复制.env.example为.env配置
@@ -159,8 +168,7 @@ hyperf/hyperf:8.0-alpine-v3.15-swoole-v4.8
 # 使用
 
 * 完整微服务架构
-
-![带你走进微服务](https://cdn.learnku.com/uploads/images/202205/31/36324/kMfvfSVjP3.png!large)
+  ![带你走进微服务](https://cdn.learnku.com/uploads/images/202205/31/36324/kMfvfSVjP3.png!large)
 
 * JsonRpc调用
   - `GET http://127.0.0.1:9501/User/UserInfo` 通讯单一服务
@@ -175,30 +183,25 @@ hyperf/hyperf:8.0-alpine-v3.15-swoole-v4.8
   - 封装DtmExceptionHandler.php 统一处理DTM事务中间件异常
 
 * 服务注册与服务发现
-
-![带你走进微服务](https://cdn.learnku.com/uploads/images/202205/31/36324/03VknWhiB6.png!large)
+  ![带你走进微服务](https://cdn.learnku.com/uploads/images/202205/31/36324/03VknWhiB6.png!large)
 
 * 链接追踪
-
-![带你走进微服务](https://cdn.learnku.com/uploads/images/202205/31/36324/PaiIwXUVrr.png!large)
+  ![带你走进微服务](https://cdn.learnku.com/uploads/images/202205/31/36324/PaiIwXUVrr.png!large)
 
 * 配置中心
-
-![带你走进微服务](https://cdn.learnku.com/uploads/images/202205/31/36324/SfiKibJ55r.png!large)
-
-![带你走进微服务](https://cdn.learnku.com/uploads/images/202205/31/36324/K4Zf5zlBhq.png!large)
+  ![带你走进微服务](https://cdn.learnku.com/uploads/images/202205/31/36324/SfiKibJ55r.png!large)
+  ![带你走进微服务](https://cdn.learnku.com/uploads/images/202205/31/36324/K4Zf5zlBhq.png!large)
 
 * 服务限流
-
-![带你走进微服务](https://cdn.learnku.com/uploads/images/202205/31/36324/QpZmGG31WD.png!large)
+  `GET http://127.0.0.1:9501/RateLimit/Test`
+  ![带你走进微服务](https://cdn.learnku.com/uploads/images/202205/31/36324/QpZmGG31WD.png!large)
 
 * 服务降级
-
-![带你走进微服务](https://cdn.learnku.com/uploads/images/202205/31/36324/bpVBwAgOKl.png!large)
+  `GET http://127.0.0.1:9501/CircuitBreaker/Test`
+  ![带你走进微服务](https://cdn.learnku.com/uploads/images/202205/31/36324/bpVBwAgOKl.png!large)
 
 * 分布式日志
-
-![带你走进微服务](https://cdn.learnku.com/uploads/images/202205/31/36324/qFqXMfcYu2.png!large)
+  ![带你走进微服务](https://cdn.learnku.com/uploads/images/202205/31/36324/qFqXMfcYu2.png!large)
 
 * 分布式事务
 
@@ -207,15 +210,16 @@ hyperf/hyperf:8.0-alpine-v3.15-swoole-v4.8
 分布式事务就是指事务的发起者、资源及资源管理器和事务协调者分别位于分布式系统的不同节点之上。行业上常用的有二阶段提交、SAGA、TCC等方案，当了解原理后，你自行用http/tcp也能实现二阶段提交、SAGA、TCC。
 
 下面的接口通过DTM调度实现在一个SAGA案例。
-
-	- `POST http://127.0.0.1:9501/Order/CreateOrder` 分布式事务	
+`POST http://127.0.0.1:9501/Order/CreateOrder` 分布式事务
 ![带你走进微服务](https://cdn.learnku.com/uploads/images/202205/31/36324/7tiJcnKiXi.png!large)
-
 ![带你走进微服务](https://cdn.learnku.com/uploads/images/202205/31/36324/a5v6AdYVT2.png!large)
-
 ![带你走进微服务](https://cdn.learnku.com/uploads/images/202205/31/36324/fEfisaY9qi.png!large)
 
 # 不足
 * 不支持gRpc的服务注册与服务发现
 * 配置中心组件只支持config调用，无法做到env的动态写入与框架重启，但可通过k8s实现
 
+# 后续 - after a long time
+
+- 适配hyperf 3.0
+- 使用go语言实现第三个服务与php服务通讯
