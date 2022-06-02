@@ -219,8 +219,9 @@ hyperf/hyperf:8.0-alpine-v3.15-swoole-v4.8
 * 不支持gRpc的服务注册与服务发现
 * 配置中心组件只支持config调用，无法做到env的动态写入与框架重启，但可通过k8s实现
 
-# 后续 - after a long time
+# 相关文档
 
-- docker-compose部署
-- 适配hyperf 3.0
-- 使用go语言实现第三个服务与php服务通讯
+hyperf：https://hyperf.wiki/2.2/#/README
+dtm：https://en.dtm.pub/
+nacos：https://nacos.io/zh-cn/docs/what-is-nacos.html
+elk：https://www.elastic.co/cn/what-is/elk-stack 
