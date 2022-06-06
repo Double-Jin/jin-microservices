@@ -1,8 +1,8 @@
 # 介绍
 
 Jin-microservices是基于 php 语言 + hyperf 微服务 框架的完整微服务demo。
-
-github地址:https://github.com/Double-Jin/jin-microservices
+github：https://github.com/Double-Jin/jin-microservices
+gitee：https://gitee.com/ljj96/jin-microservices
 
 # 关于 JM
 
@@ -112,7 +112,7 @@ Filebeat
     filebeat.inputs:
       - type: log
         paths:
-          - /microservices/*/runtime/logs/*.log
+          - /jin-microservices/*/runtime/logs/*.log
         multiline.pattern: '^\[[0-9]{4}-[0-9]{2}-[0-9]{2}'
         multiline.negate: true
         multiline.match: after
@@ -221,11 +221,7 @@ hyperf/hyperf:8.0-alpine-v3.15-swoole-v4.8
 * 配置中心组件只支持config调用，无法做到env的动态写入与框架重启，但可通过k8s实现
 
 # 相关文档
-
-hyperf：https://hyperf.wiki/2.2/#/README
-
-dtm：https://en.dtm.pub/
-
-nacos：https://nacos.io/zh-cn/docs/what-is-nacos.html
-
-elk：https://www.elastic.co/cn/what-is/elk-stack 
+- hyperf：https://hyperf.wiki/2.2/#/README
+- dtm：https://en.dtm.pub/
+- nacos：https://nacos.io/zh-cn/docs/what-is-nacos.html
+- elk：https://www.elastic.co/cn/what-is/elk-stack 
