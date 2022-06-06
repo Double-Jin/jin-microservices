@@ -1,0 +1,77 @@
+version: '3.9'
+services:
+  hyperf:
+    container_name: hyperf
+    image: hyperf/hyperf:8.0-alpine-v3.15-swoole-v4.8
+    hostname: hyperf
+    restart: always
+    privileged: true
+    ports:
+      - 9501:9501
+      - 9502:9502
+      - 9503:9503
+    volumes:
+      - /Users/linjinjin/Documents/dnmp/www:/data/www
+    tty: true
+    networks:
+      - hyperf_networks
+
+  nacos:
+    container_name: nacos
+    image: nacos/nacos-server:v2.1.0
+    environment:
+      - MODE=standalone
+      - JVM_XMS=512m
+      - JVM_XMN=256m
+    hostname: nacos
+    restart: always
+    ports:
+      - 8848:8848
+    networks:
+      - hyperf_networks
+
+  redis:
+    container_name: redis
+    image: redis:7.0
+    restart: always
+    hostname: redis
+    ports:
+      - 6379:6379
+    networks:
+      - hyperf_networks
+
+  elk:
+    container_name: elk
+    image: sebp/elk:7.17.1
+    restart: always
+    hostname: elk
+    ports:
+      - 5601:5601
+      - 9200:9200
+      - 5044:5044
+    networks:
+      - hyperf_networks
+
+  dtm:
+    image: yedf/dtm:1.14
+    container_name: dtm
+    hostname: dtm
+    restart: always
+    ports:
+      - "36789:36789"
+      - "36790:36790"
+    networks:
+      - hyperf_networks
+
+  zipkin:
+    image: openzipkin/zipkin:2
+    container_name: zipkin
+    hostname: zipkin
+    restart: always
+    ports:
+      - "9411:9411"
+    networks:
+      - hyperf_networks
+
+networks:
+  hyperf_networks:
