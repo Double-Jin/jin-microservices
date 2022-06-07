@@ -20,6 +20,11 @@ use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
 use Throwable;
 
+/**
+ * jsonRpc异常处理
+ * Class JsonRpcExceptionHandler
+ * @package App\Exception\Handler
+ */
 class JsonRpcExceptionHandler extends ExceptionHandler
 {
     /**

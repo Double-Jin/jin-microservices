@@ -10,9 +10,19 @@ use App\Model\User;
 use App\Model\UserBonusLog;
 use App\Model\UserStoredLog;
 
+/**
+ * 用户service
+ * Class UserService
+ * @package App\Services
+ */
 class UserService
 {
 
+    /**
+     * 用户详情
+     * @param $userId
+     * @return array|mixed[]
+     */
     public function userInfo($userId)
     {
         Log::get()->info("调用userInfo");
@@ -32,6 +42,12 @@ class UserService
 
     }
 
+    /**
+     * 用户积分列表
+     * @param $page
+     * @param $pageSize
+     * @return mixed
+     */
     public function userBonusList($page, $pageSize)
     {
         Log::get()->info("调用userBonusList");
@@ -48,6 +64,12 @@ class UserService
         return $list->toArray();
     }
 
+    /**
+     * 用户储值列表
+     * @param $page
+     * @param $pageSize
+     * @return mixed
+     */
     public function userStoredList($page, $pageSize)
     {
         Log::get()->info("调用userBonusList");
@@ -64,18 +86,26 @@ class UserService
         return $list->toArray();
     }
 
-    public function changeStored($userId,$amount,$orderNo){
-        Log::get()->info("分布式事务-changeStored",[
-            'user_id'=>$userId,
-            'amount'=>$amount,
-            'order_no'=>$orderNo,
+    /**
+     * SAGA改变用户储值成功
+     * @param $userId
+     * @param $amount
+     * @param $orderNo
+     */
+    public function changeStored($userId, $amount, $orderNo)
+    {
+        Log::get()->info("分布式事务-changeStored", [
+            'user_id' => $userId,
+            'amount' => $amount,
+            'order_no' => $orderNo,
         ]);
+
         //分布式事务
         try {
 
             UserStoredLog::create([
                 'user_id' => $userId,
-                'type' => $amount >= 0 ? 1: -1,
+                'type' => $amount >= 0 ? 1 : -1,
                 'amount' => $amount,
                 'source' => 'order',
                 'remark' => $orderNo
@@ -89,19 +119,26 @@ class UserService
 
     }
 
-    public function changeStoredCompensate($userId,$amount,$orderNo){
-        Log::get()->info("分布式事务-changeStoredCompensate",[
-            'user_id'=>$userId,
-            'amount'=>$amount,
-            'order_no'=>$orderNo,
+    /**
+     * SAGA改变用户储值补偿
+     * @param $userId
+     * @param $amount
+     * @param $orderNo
+     */
+    public function changeStoredCompensate($userId, $amount, $orderNo)
+    {
+        Log::get()->info("分布式事务-changeStoredCompensate", [
+            'user_id' => $userId,
+            'amount' => $amount,
+            'order_no' => $orderNo,
         ]);
 
         //分布式事务
         try {
             UserStoredLog::query()
-                ->where('user_id',$userId)
-                ->where('source','order')
-                ->where('remark',$orderNo)
+                ->where('user_id', $userId)
+                ->where('source', 'order')
+                ->where('remark', $orderNo)
                 ->delete();
 
         } catch (\Throwable $e) {
