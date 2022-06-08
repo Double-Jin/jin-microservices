@@ -86,19 +86,24 @@ JM 是一款基于 php 语言 + hyperf 微服务 框架编写的完整微服务d
   ![带你走进微服务](https://cdn.learnku.com/uploads/images/202205/31/36324/bpVBwAgOKl.png!large)
 
 * 分布式日志
+  
+  当系统变为集群后，应用日志在数十台甚至是上百台不同的服务器上，能实现日志的统一查找、分析和归档等功能便可称为分布式日志系统。
+  
+  生产上方案会有很多，如将日志直接输出来Elasticsearch，如使用云服务商提供的日志收集。本案例采用的是通过filebeat将日志同步到ELK中。
   ![带你走进微服务](https://cdn.learnku.com/uploads/images/202205/31/36324/qFqXMfcYu2.png!large)
 
+
 * 分布式事务
-
-数据库事务可以确保该事务范围内的所有操作都可以全部成功或者全部失败。但对分布式系统来说，数据的操作来自多个不同的数据库，单个数据库事务的成功或失败不代表整个系统的数据一致性是对的，只能够通过分布式事务来解决。
-
-分布式事务就是指事务的发起者、资源及资源管理器和事务协调者分别位于分布式系统的不同节点之上。行业上常用的有二阶段提交、SAGA、TCC等方案，当了解原理后，你自行用http/tcp也能实现二阶段提交、SAGA、TCC。
-
-下面的接口通过DTM调度实现在一个SAGA案例。
-`POST http://127.0.0.1:9501/Order/CreateOrder` 分布式事务
-![带你走进微服务](https://cdn.learnku.com/uploads/images/202205/31/36324/7tiJcnKiXi.png!large)
-![带你走进微服务](https://cdn.learnku.com/uploads/images/202205/31/36324/a5v6AdYVT2.png!large)
-![带你走进微服务](https://cdn.learnku.com/uploads/images/202205/31/36324/fEfisaY9qi.png!large)
+  
+  数据库事务可以确保该事务范围内的所有操作都可以全部成功或者全部失败。但对分布式系统来说，数据的操作来自多个不同的数据库，单个数据库事务的成功或失败不代表整个系统的数据一致性是对的，只能够通过分布式事务来解决。
+  
+  分布式事务就是指事务的发起者、资源及资源管理器和事务协调者分别位于分布式系统的不同节点之上。行业上常用的有二阶段提交、SAGA、TCC等方案，当了解原理后，你自行用http/tcp也能实现二阶段提交、SAGA、TCC。
+  
+  下面的接口通过DTM调度实现在一个SAGA案例。
+  `POST http://127.0.0.1:9501/Order/CreateOrder` 分布式事务
+  ![带你走进微服务](https://cdn.learnku.com/uploads/images/202205/31/36324/7tiJcnKiXi.png!large)
+  ![带你走进微服务](https://cdn.learnku.com/uploads/images/202205/31/36324/a5v6AdYVT2.png!large)
+  ![带你走进微服务](https://cdn.learnku.com/uploads/images/202205/31/36324/fEfisaY9qi.png!large)
 
 # 不足
 * 不支持gRpc的服务注册与服务发现
