@@ -11,19 +11,26 @@ declare(strict_types=1);
  */
 namespace App\Controller;
 
-use Hyperf\Di\Annotation\Inject;
 use Hyperf\HttpServer\Annotation\Controller;
 use Hyperf\HttpServer\Annotation\GetMapping;
-use Hyperf\HttpServer\Contract\RequestInterface;
 use Hyperf\RateLimit\Annotation\RateLimit;
 
+/**
+ * 限流控制器
+ * Class RateLimitController
+ * @package App\Controller
+ */
 #[Controller(prefix: '/RateLimit')]
 class RateLimitController extends CommonController
 {
 
+    /**
+     * 测试限流
+     * @return \Psr\Http\Message\ResponseInterface
+     */
     #[GetMapping(path: 'Test')]
     #[RateLimit(create:1,consume:1, capacity:1,waitTimeout:1)]
-    public function test(RequestInterface $request)
+    public function test()
     {
         return $this->success('这是测试限流');
     }

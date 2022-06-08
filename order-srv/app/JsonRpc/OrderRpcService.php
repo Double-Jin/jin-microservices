@@ -11,20 +11,45 @@ use Hyperf\RpcServer\Annotation\RpcService;
 use App\Services\OrderService;
 use Hyperf\Di\Annotation\Inject;
 
+/**
+ * 订单rpc服务
+ * Class OrderRpcService
+ * @package App\JsonRpc
+ */
 #[RpcService(name:"OrderRpcService", protocol:"jsonrpc-http", server:"jsonrpc-http", publishTo:"nacos")]
 class OrderRpcService implements OrderRpcServiceInterface
 {
+    /**
+     * 注入OrderService
+     * @var OrderService
+     */
     #[Inject]
     protected OrderService $orderService;
 
+    /**
+     * 订单列表
+     * @param int $userId
+     * @return array
+     */
     public function orderList(int $userId): array
     {
-        return successJsonRpc(200, $this->orderService->orderList($userId));
+        return [
+            'code' => 200,
+            'data' => $this->orderService->orderList($userId)
+        ];
     }
 
+    /**
+     * 创建订单
+     * @param array $data
+     * @return array
+     */
     public function createOrder(array $data): array
     {
-        return successJsonRpc(200, $this->orderService->createOrder($data));
+        return [
+            'code' => 200,
+            'data' => $this->orderService->createOrder($data)
+        ];
     }
 
 }

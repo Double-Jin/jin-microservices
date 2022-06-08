@@ -9,6 +9,11 @@ namespace App\JsonRpc;
 
 use Hyperf\RpcClient\AbstractServiceClient;
 
+/**
+ * 用户rpc消费者服务
+ * Class UserRpcConsumer
+ * @package App\JsonRpc
+ */
 class UserRpcConsumer extends AbstractServiceClient
 {
     /**

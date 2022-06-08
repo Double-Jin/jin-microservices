@@ -19,7 +19,11 @@ use Hyperf\RateLimit\Exception\RateLimitException;
 use Psr\Http\Message\ResponseInterface;
 use Throwable;
 
-//限流器异常处理
+/**
+ * 限流器异常处理
+ * Class RateLimitExceptionHandler
+ * @package App\Exception\Handler
+ */
 class RateLimitExceptionHandler extends ExceptionHandler
 {
     public function handle(Throwable $throwable, ResponseInterface $response)

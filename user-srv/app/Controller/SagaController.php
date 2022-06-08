@@ -16,18 +16,31 @@ use Hyperf\HttpServer\Contract\RequestInterface;
 use Hyperf\HttpServer\Annotation\Controller;
 use Hyperf\HttpServer\Annotation\PostMapping;
 use Hyperf\Di\Annotation\Inject;
-use Hyperf\HttpServer\Contract\ResponseInterface;
 
+/**
+ * DTM.SAGA回调控制器
+ * Class SagaController
+ * @package App\Controller
+ */
 #[Controller(prefix: '/saga')]
 class SagaController extends AbstractController
 {
+    /**
+     * 注入OrderService
+     * @var UserService
+     */
     #[Inject]
     protected UserService $userService;
 
+    /**
+     * 改变储值成功
+     * @param RequestInterface $request
+     * @return string[]
+     */
     #[PostMapping(path: 'changeStored')]
     public function changeStored(RequestInterface $request): array
     {
-
+        //调用userService.changeStored方法
         $this->userService->changeStored(
             $request->input('user_id'),
             $request->input('amount'),
@@ -39,9 +52,15 @@ class SagaController extends AbstractController
         ];
     }
 
+    /**
+     * 改变储值成功补偿
+     * @param RequestInterface $request
+     * @return string[]
+     */
     #[PostMapping(path: 'changeStoredCompensate')]
     public function changeStoredCompensate(RequestInterface $request): array
     {
+        //调用userService.changeStoredCompensate方法
         $this->userService->changeStoredCompensate(
             $request->input('user_id'),
             $request->input('amount'),

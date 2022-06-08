@@ -6,22 +6,33 @@ namespace App\Services;
 use App\Exception\ServiceException;
 use App\JsonRpc\OrderRpcConsumer;
 use App\Log;
-use Hyperf\Utils\Str;
-use Hyperf\HttpServer\Annotation\RequestMapping;
-use App\JsonRpc\UserRpcConsumer;
+use Hyperf\Di\Annotation\Inject;
 
+/**
+ * 订单service
+ * Class OrderService
+ * @package App\Services
+ */
 class OrderService
 {
+
+    /**
+     * 注入OrderRpcConsumer
+     * @var OrderRpcConsumer
+     */
+    #[Inject]
+    protected OrderRpcConsumer $orderRpcConsumer;
 
     public function getRpcOrderList(int $userId)
     {
         Log::get()->info("调用getRpcOrderList");
 
         try {
-            $res = di(OrderRpcConsumer::class)->orderList( $userId);
+            //调用订单服务中的订单列表方法
+            $res = $this->orderRpcConsumer->orderList($userId);
 
         } catch (\Throwable $ex) {
-            Log::get()->info("rpc调用失败",[
+            Log::get()->info("rpc调用失败", [
                 'code' => $ex->getCode(),
                 'file' => $ex->getFile(),
                 'message' => $ex->getMessage(),
@@ -31,7 +42,7 @@ class OrderService
         }
 
         if ($res['code'] !== 200) {
-            Log::get()->info("rpc调用失败",[
+            Log::get()->info("rpc调用失败", [
                 'code' => $res['code'],
                 'file' => '',
                 'message' => $res['message']
@@ -49,11 +60,12 @@ class OrderService
         Log::get()->info("调用rpcCreateOrder");
 
         try {
-            $res = di(OrderRpcConsumer::class)->createOrder($data);
+            //调用订单服务中的创建订单方法
+            $res = $this->orderRpcConsumer->createOrder($data);
 
         } catch (\Throwable $ex) {
 
-            Log::get()->info("rpc调用失败",[
+            Log::get()->info("rpc调用失败", [
                 'code' => $ex->getCode(),
                 'file' => $ex->getFile(),
                 'message' => $ex->getMessage(),
@@ -63,7 +75,7 @@ class OrderService
         }
 
         if ($res['code'] !== 200) {
-            Log::get()->info("rpc调用失败",[
+            Log::get()->info("rpc调用失败", [
                 'code' => $res['code'],
                 'file' => '',
                 'message' => $res['message']

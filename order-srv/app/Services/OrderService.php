@@ -4,8 +4,6 @@
 namespace App\Services;
 
 use App\Model\OrderGoods;
-use DtmClient\Api\ApiInterface;
-use DtmClient\TCC;
 use DtmClient\Saga;
 use DtmClient\TransContext;
 use App\Exception\JsonRpcException;
@@ -15,14 +13,32 @@ use App\Log;
 use App\Model\Order;
 use Hyperf\Di\Annotation\Inject;
 
+/**
+ * 订单service
+ * Class OrderService
+ * @package App\Services
+ */
 class OrderService
 {
-    #[Inject]
-    protected TCC $tcc;
-
+    /**
+     * 注入DTM.SAGA
+     * @var Saga
+     */
     #[Inject]
     protected Saga $saga;
 
+    /**
+     * 注入UserRpcConsumer
+     * @var UserRpcConsumer
+     */
+    #[Inject]
+    protected UserRpcConsumer $userRpcConsumer;
+
+    /**
+     * 订单列表
+     * @param $userId
+     * @return mixed[]
+     */
     public function orderList($userId)
     {
         Log::get()->info("调用orderList");
@@ -40,8 +56,8 @@ class OrderService
         //调用用户服务拿到用户信息
         foreach ($list as $item) {
             try {
-
-                $res = di(UserRpcConsumer::class)->userInfo($item->user_id);
+                //调用用户服务中的用户详情方法
+                $res = $this->userRpcConsumer->userInfo($item->user_id);
 
             } catch (\Throwable $ex) {
                 Log::get()->info("rpc调用失败");
@@ -55,6 +71,7 @@ class OrderService
                 throw new JsonRpcException(430);
             }
 
+            //拼装数据
             $item->user = $res['data'];
         }
 
@@ -62,6 +79,11 @@ class OrderService
 
     }
 
+    /**
+     * 创建订单
+     * @param $data
+     * @return string
+     */
     public function createOrder($data)
     {
 
@@ -76,20 +98,21 @@ class OrderService
         //todo
 
         $this->saga->init();
-        // 增加转出子事务
+
         //创建订单
         $this->saga->add(
             env('DTM_ORDER_URL') . '/saga/sageCreateOrder',
             env('DTM_ORDER_URL') . '/saga/sageCreateOrderCompensate',
             $data
         );
-        // 增加转入子事务
+
         //扣用户余额
         $this->saga->add(
             env('DTM_USER_URL') . '/saga/changeStored',
             env('DTM_USER_URL'). '/saga/changeStoredCompensate',
             ['order_no'=>$data['order_no'] ,'user_id'=>$data['user_id'],'amount'=>-$data['order_fact_money']]
         );
+
         // 提交 Saga 事务
         $this->saga->submit();
 
@@ -97,6 +120,11 @@ class OrderService
 
     }
 
+    /**
+     * SAGA订单创建成功
+     * @param $data
+     * @return string
+     */
     public function sageCreateOrder($data)
     {
         Log::get()->info("分布式事务-sageCreateOrder",$data);
@@ -137,6 +165,12 @@ class OrderService
 
     }
 
+
+    /**
+     * SAGA订单创建补偿
+     * @param $data
+     * @return string
+     */
     public function sageCreateOrderCompensate($data)
     {
         Log::get()->info("分布式事务-sageCreateOrderCompensate",$data);

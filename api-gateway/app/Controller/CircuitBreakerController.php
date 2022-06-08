@@ -17,12 +17,26 @@ use Hyperf\CircuitBreaker\Annotation\CircuitBreaker;
 use Hyperf\HttpServer\Annotation\Controller;
 use Hyperf\HttpServer\Annotation\GetMapping;
 
+/**
+ * 服务降级控制器
+ * Class CircuitBreakerController
+ * @package App\Controller
+ */
 #[Controller(prefix: '/CircuitBreaker')]
 class CircuitBreakerController extends CommonController
 {
+
+    /**
+     * 注入UserService
+     * @var UserService
+     */
     #[Inject]
     protected UserService $userService;
 
+    /**
+     * 测试服务降级
+     * @return \Psr\Http\Message\ResponseInterface
+     */
     #[GetMapping(path: 'Test')]
     #[CircuitBreaker(timeout:0.4, failCounter:1, successCounter:1, fallback:"App\Controller\CircuitBreakerController::circuitBreakerFallback")]
     public function test()
@@ -32,6 +46,10 @@ class CircuitBreakerController extends CommonController
         return $this->success('这是服务降级');
     }
 
+    /**
+     * 服务降级异常返回方法
+     * @return \Psr\Http\Message\ResponseInterface
+     */
     public function circuitBreakerFallback()
     {
         return $this->success('服务降级啦~');

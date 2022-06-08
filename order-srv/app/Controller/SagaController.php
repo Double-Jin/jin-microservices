@@ -17,16 +17,30 @@ use Hyperf\HttpServer\Annotation\Controller;
 use Hyperf\HttpServer\Annotation\PostMapping;
 use Hyperf\Di\Annotation\Inject;
 
+/**
+ * DTM.SAGA回调控制器
+ * Class SagaController
+ * @package App\Controller
+ */
 #[Controller(prefix: '/saga')]
 class SagaController extends AbstractController
 {
+    /**
+     * 注入OrderService
+     * @var OrderService
+     */
     #[Inject]
     protected OrderService $orderService;
 
+    /**
+     * 订单创建成功
+     * @param RequestInterface $request
+     * @return string[]
+     */
     #[PostMapping(path: 'sageCreateOrder')]
     public function sageCreateOrder(RequestInterface $request): array
     {
-        var_dump(1);
+        //调用orderService.sageCreateOrder方法
         $this->orderService->sageCreateOrder($request->all());
 
         return [
@@ -34,9 +48,15 @@ class SagaController extends AbstractController
         ];
     }
 
+    /**
+     * 订单创建成功补偿
+     * @param RequestInterface $request
+     * @return string[]
+     */
     #[PostMapping(path: 'sageCreateOrderCompensate')]
     public function sageCreateOrderCompensate(RequestInterface $request): array
     {
+        //调用orderService.sageCreateOrderCompensate方法
         $this->orderService->sageCreateOrderCompensate($request->all());
 
         return [

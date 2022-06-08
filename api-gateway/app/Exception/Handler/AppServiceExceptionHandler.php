@@ -18,7 +18,11 @@ use Hyperf\HttpMessage\Stream\SwooleStream;
 use Psr\Http\Message\ResponseInterface;
 use Throwable;
 
-//app异常处理
+/**
+ * app异常处理
+ * Class AppServiceExceptionHandler
+ * @package App\Exception\Handler
+ */
 class AppServiceExceptionHandler extends ExceptionHandler
 {
     public function handle(Throwable $throwable, ResponseInterface $response)

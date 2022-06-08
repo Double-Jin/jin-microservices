@@ -11,24 +11,55 @@ use Hyperf\RpcServer\Annotation\RpcService;
 use App\Services\UserService;
 use Hyperf\Di\Annotation\Inject;
 
+/**
+ * 用户rpc服务
+ * Class OrderRpcService
+ * @package App\JsonRpc
+ */
 #[RpcService(name:"UserRpcService", protocol:"jsonrpc-http", server:"jsonrpc-http", publishTo:"nacos")]
 class UserRpcService implements UserRpcServiceInterface
 {
     #[Inject]
     protected UserService $userService;
 
+    /**
+     * 用户详情
+     * @param int $userId
+     * @return array
+     */
     public function userInfo(int $userId): array
     {
-        return successJsonRpc(200, $this->userService->userInfo($userId));
+        return [
+            'code' => 200,
+            'data' => $this->userService->userInfo($userId)
+        ];
     }
 
+    /**
+     * 用户积分列表
+     * @param int $page
+     * @param int $pageSize
+     * @return array
+     */
     public function userBonusList(int $page, int $pageSize): array
     {
-        return successJsonRpc(200, $this->userService->userBonusList($page, $pageSize));
+        return [
+            'code' => 200,
+            'data' => $this->userService->userBonusList($page, $pageSize)
+        ];
     }
 
+    /**
+     * 用户储值列表
+     * @param int $page
+     * @param int $pageSize
+     * @return array
+     */
     public function userStoredList(int $page, int $pageSize): array
     {
-        return successJsonRpc(200, $this->userService->userStoredList($page, $pageSize));
+        return [
+            'code' => 200,
+            'data' => $this->userService->userStoredList($page, $pageSize)
+        ];
     }
 }
