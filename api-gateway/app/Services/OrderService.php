@@ -4,7 +4,7 @@
 namespace App\Services;
 
 use App\Exception\ServiceException;
-use App\JsonRpc\OrderRpcConsumer;
+use App\JsonRpc\OrderRpcServiceInterface;
 use App\Log;
 use Hyperf\Di\Annotation\Inject;
 
@@ -17,11 +17,11 @@ class OrderService
 {
 
     /**
-     * 注入OrderRpcConsumer
-     * @var OrderRpcConsumer
+     * 注入OrderRpcServiceInterface
+     * @var OrderRpcServiceInterface
      */
     #[Inject]
-    protected OrderRpcConsumer $orderRpcConsumer;
+    protected OrderRpcServiceInterface $orderRpcServiceInterface;
 
     public function getRpcOrderList(int $userId)
     {
@@ -29,7 +29,7 @@ class OrderService
 
         try {
             //调用订单服务中的订单列表方法
-            $res = $this->orderRpcConsumer->orderList($userId);
+            $res = $this->orderRpcServiceInterface->orderList($userId);
 
         } catch (\Throwable $ex) {
             Log::get()->info("rpc调用失败", [
@@ -61,7 +61,7 @@ class OrderService
 
         try {
             //调用订单服务中的创建订单方法
-            $res = $this->orderRpcConsumer->createOrder($data);
+            $res = $this->orderRpcServiceInterface->createOrder($data);
 
         } catch (\Throwable $ex) {
 

@@ -13,7 +13,10 @@ $registry = [
 
 // 这里配置需要用的rpc服务
 $services = [
-    'UserRpcService',
+    [
+        'name' => 'UserRpcService',
+        'service' => \App\JsonRpc\UserRpcServiceInterface::class
+    ]
 ];
 
 return [
@@ -27,9 +30,10 @@ return [
     'consumers' => value(function () use ($services, $registry) {
         // 循环生成rpc消费端
         $consumers = [];
-        foreach ($services as $name) {
+        foreach ($services as $value) {
             $consumers[] = [
-                'name' => $name,
+                'name' => $value['name'],
+                'service' => $value['service'],
                 'registry' => $registry
             ];
         }

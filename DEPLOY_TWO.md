@@ -36,13 +36,11 @@ docker-compose
  8.docker restart elk
  9.连接mysql
  10.新建order-srv数据库
- 11.导入/jin-microservices/order-srv.sql
- 12.新建user-srv数据库
- 13.导入/jin-microservices/user-srv.sql
- 14.访问http://127.0.0.1:8848/nacos/#/login
- 15.用户名密码: nacos/nacos
- 16.命名空间->新建命名空间->增加空间 `dev`
- 17.配置管理->配置列表->dev->导入配置->/jin-microservices/nacos_config.zip
+ 11.新建user-srv数据库
+ 12.访问http://127.0.0.1:8848/nacos/#/login
+ 13.用户名密码: nacos/nacos
+ 14.命名空间->新建命名空间->增加空间 `dev`
+ 15.配置管理->配置列表->dev->导入配置->/jin-microservices/nacos_config.zip
 ```
 
 Filebeat
@@ -87,10 +85,14 @@ Filebeat
 5.cd jin-microservices/user_srv/
     composer update
     复制.env.example为.env配置
+    php bin/hyperf.php migrate
+    php bin/hyperf.php db:seed
     php bin/hyperf.php start
 6.cd jin-microservices/order_srv/
     composer update
     复制.env.example为.env配置
+    php bin/hyperf.php migrate
+    php bin/hyperf.php db:seed
     php bin/hyperf.php start
 ```
 

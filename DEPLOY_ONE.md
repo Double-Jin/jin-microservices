@@ -5,9 +5,7 @@ Mysql
   ```bash  
   1.安装 - 略
   2.新建order-srv数据库
-  3.导入/jin-microservices/order-srv.sql
-  4.新建user-srv数据库
-  5.导入/jin-microservices/user-srv.sql
+  3.新建user-srv数据库
 ```
 
 Redis
@@ -118,9 +116,13 @@ hyperf/hyperf:8.0-alpine-v3.15-swoole-v4.8
 6.cd jin-microservices/user_srv/
     composer update
     复制.env.example为.env配置
+    php bin/hyperf.php migrate
+    php bin/hyperf.php db:seed
     php bin/hyperf.php start
 7.cd jin-microservices/order_srv/
     composer update
     复制.env.example为.env配置
+    php bin/hyperf.php migrate
+    php bin/hyperf.php db:seed
     php bin/hyperf.php start
 ``` 

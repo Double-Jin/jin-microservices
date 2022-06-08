@@ -3,12 +3,12 @@
 
 namespace App\Services;
 
+use App\JsonRpc\UserRpcServiceInterface;
 use App\Model\OrderGoods;
 use DtmClient\Saga;
 use DtmClient\TransContext;
 use App\Exception\JsonRpcException;
 use App\Exception\ServiceException;
-use App\JsonRpc\UserRpcConsumer;
 use App\Log;
 use App\Model\Order;
 use Hyperf\Di\Annotation\Inject;
@@ -28,11 +28,11 @@ class OrderService
     protected Saga $saga;
 
     /**
-     * 注入UserRpcConsumer
-     * @var UserRpcConsumer
+     * 注入UserRpcServiceInterface
+     * @var UserRpcServiceInterface
      */
     #[Inject]
-    protected UserRpcConsumer $userRpcConsumer;
+    protected UserRpcServiceInterface $userRpcServiceInterface;
 
     /**
      * 订单列表
@@ -57,7 +57,7 @@ class OrderService
         foreach ($list as $item) {
             try {
                 //调用用户服务中的用户详情方法
-                $res = $this->userRpcConsumer->userInfo($item->user_id);
+                $res = $this->userRpcServiceInterface->userInfo($item->user_id);
 
             } catch (\Throwable $ex) {
                 Log::get()->info("rpc调用失败");
@@ -88,8 +88,7 @@ class OrderService
     {
 
         //分布式事务
-        $orderNo = date("YmdHis");
-        $data['order_no'] = $orderNo;
+        $data['order_no'] = date("YmdHis");
 
         //获取用户储值
         //todo
@@ -98,7 +97,6 @@ class OrderService
         //todo
 
         $this->saga->init();
-
         //创建订单
         $this->saga->add(
             env('DTM_ORDER_URL') . '/saga/sageCreateOrder',

@@ -4,8 +4,8 @@
 namespace App\Services;
 
 use App\Exception\ServiceException;
+use App\JsonRpc\UserRpcServiceInterface;
 use App\Log;
-use App\JsonRpc\UserRpcConsumer;
 use Hyperf\Di\Annotation\Inject;
 use Swoole\Coroutine;
 
@@ -18,11 +18,11 @@ class UserService
 {
 
     /**
-     * 注入UserRpcConsumer
-     * @var UserRpcConsumer
+     * 注入UserRpcServiceInterface
+     * @var UserRpcServiceInterface
      */
     #[Inject]
-    protected UserRpcConsumer $userRpcConsumer;
+    protected UserRpcServiceInterface $userRpcServiceInterface;
 
     /**
      * 用户信息
@@ -36,7 +36,7 @@ class UserService
         try {
 
             //调用用户服务中的用户详情方法
-            $res = $this->userRpcConsumer->userInfo($userId);
+            $res = $this->userRpcServiceInterface->userInfo($userId);
 
         } catch (\Throwable $ex) {
             Log::get()->info("rpc调用失败", [
@@ -73,7 +73,7 @@ class UserService
 
         try {
             //调用用户服务中的用户积分列表方法
-            $res = $this->userRpcConsumer->userBonusList($page, $pageSize);
+            $res = $this->userRpcServiceInterface->userBonusList($page, $pageSize);
 
         } catch (\Throwable $ex) {
             Log::get()->info("rpc调用失败", [
@@ -110,7 +110,7 @@ class UserService
 
         try {
             //调用用户服务中的用户储值列表方法
-            $res = $this->userRpcConsumer->userStoredList($page, $pageSize);
+            $res = $this->userRpcServiceInterface->userStoredList($page, $pageSize);
 
         } catch (\Throwable $ex) {
             Log::get()->info("rpc调用失败", [
