@@ -10,9 +10,11 @@ docker-compose
     sysctl -p
  2.修改docker-composer.services.hyperf.volumes目录映射地址
  3.docker-compose up
- 4.docker exec -it elk bin/bash
- 5.cd /etc/logstash/conf.d
- 6.vim logstash.conf
+ 4.docker exec -it rabbit /bin/bash
+ 5.rabbitmq-plugins enable rabbitmq_management
+ 6.docker exec -it elk bin/bash
+ 7.cd /etc/logstash/conf.d
+ 8.vim logstash.conf
 		  input {
 			  beats {
 				port => 5044
@@ -32,15 +34,15 @@ docker-compose
 					 index => "jm-log"
 				 }
 			}
- 7.rm 02-beats-input.conf  10-syslog.conf  11-nginx.conf  30-output.conf
- 8.docker restart elk
- 9.连接mysql
- 10.新建order-srv数据库
- 11.新建user-srv数据库
- 12.访问http://127.0.0.1:8848/nacos/#/login
- 13.用户名密码: nacos/nacos
- 14.命名空间->新建命名空间->增加空间 `dev`
- 15.配置管理->配置列表->dev->导入配置->/jin-microservices/nacos_config.zip
+ 9.rm 02-beats-input.conf  10-syslog.conf  11-nginx.conf  30-output.conf
+ 10.docker restart elk
+ 11.连接mysql
+ 12.新建order-srv数据库
+ 13.新建user-srv数据库
+ 14.访问http://127.0.0.1:8848/nacos/#/login
+ 15.用户名密码: nacos/nacos
+ 16.命名空间->新建命名空间->增加空间 `dev`
+ 17.配置管理->配置列表->dev->导入配置->/jin-microservices/nacos_config.zip
 ```
 
 Filebeat
@@ -67,8 +69,9 @@ Filebeat
 验证
 ```bash
  1.访问http://127.0.0.1:8848/nacos/#/login 用户名密码: nacos/nacos
- 2.访问http://39.108.236.73:9200
- 3.访问http://39.108.236.73:5601/app/kibana
+ 2.访问http://127.0.0.1:15672 用户名密码: guest/guest
+ 2.访问http://127.0.0.1:9200
+ 3.访问http://127.0.0.1:5601/app/kibana
  4.访问http://127.0.0.1:9411/zipkin/ 
  5.访问http://127.0.0.1:36789
 ```

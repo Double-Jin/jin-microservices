@@ -26,6 +26,7 @@ JM 是一款基于 php 语言 + hyperf 微服务 框架编写的完整微服务d
 * JsonRpc调用
 * 统一异常处理
 * 服务注册与服务发现
+* 消息队列
 * 链接追踪
 * 配置中心
 * 服务限流
@@ -52,16 +53,24 @@ JM 是一款基于 php 语言 + hyperf 微服务 框架编写的完整微服务d
 
 # 使用
 
+* 目录结构
+  ```
+    |-- api-gateway //网关服务项目代码 
+    |-- order-srv //订单服务项目代码
+    |-- user-srv // 用户服务项目代码
+    |-- README.md //说明文档
+  ```
+
 * 完整微服务架构
-  ![带你走进微服务](https://cdn.learnku.com/uploads/images/202205/31/36324/kMfvfSVjP3.png!large)
+  ![完整的php微服务案例](https://cdn.learnku.com/uploads/images/202206/15/36324/zfxnraiUJx.png!large)
 
 * JsonRpc调用
   - `GET http://127.0.0.1:9501/User/UserInfo` 通讯单一服务
   - `GET http://127.0.0.1:9501/User/UserBonusList` 通讯单一服务
   - `GET http://127.0.0.1:9501/User/UserStoredList` 通讯单一服务
   - `GET http://127.0.0.1:9501/Order/OrderList` 通讯多个服务
-* 统一异常处理
 
+* 统一异常处理
   - 封装AppServiceExceptionHandler.php 统一处理http请求异常
   - 封装RateLimitExceptionHandler.php 统一处理限流异常
   - 封装JsonRpcExceptionHandler.php 统一处理JsonPrc通讯异常
@@ -70,6 +79,11 @@ JM 是一款基于 php 语言 + hyperf 微服务 框架编写的完整微服务d
 * 服务注册与服务发现
   ![带你走进微服务](https://cdn.learnku.com/uploads/images/202205/31/36324/03VknWhiB6.png!large)
 
+* 消息队列
+  - `GET http://127.0.0.1:9501/User/UserRabbitMQ` 调用投递用户消息队列接口
+  - `GET http://127.0.0.1:9501/Order/OrderRabbitMQ` 调用投递订单消息队列接口
+  ![完整的php微服务案例](https://cdn.learnku.com/uploads/images/202206/15/36324/0BU5P5RHTL.jpeg!large)
+  
 * 链接追踪
   ![带你走进微服务](https://cdn.learnku.com/uploads/images/202205/31/36324/PaiIwXUVrr.png!large)
 

@@ -30,6 +30,17 @@ services:
     networks:
       - hyperf_networks
 
+  rabbitmq:
+    container_name: rabbit
+    image: rabbitmq:3.9.2
+    hostname: rabbit
+    restart: always
+    ports:
+      - 15672:15672
+      - 5672:5672
+    networks:
+      - hyperf_networks
+
   redis:
     container_name: redis
     image: redis:7.0

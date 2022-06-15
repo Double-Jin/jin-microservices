@@ -15,13 +15,22 @@ Redis
 
 Nacos
  ```bash  
-  1.docker run --name nacos-standalone -e MODE=standalone
+  1.docker run --name nacos-standalone -e MODE=standalone \
   -e JVM_XMS=512m -e JVM_XMN=256m -p 8848:8848 -d
   nacos/nacos-server:v2.1.0
   2.访问http://127.0.0.1:8848/nacos/#/login
   3.用户名密码: nacos/nacos
   4.命名空间->新建命名空间->增加空间 `dev`
   5.配置管理->配置列表->dev->导入配置->/jin-microservices/nacos_config.zip
+```
+
+Rabbitmq
+ ```bash  
+  1.docker run -d  --name rabbit -p 15672:15672 -p 5672:5672 rabbitmq:3.9.2
+  2.docker exec -it rabbit /bin/bash
+  3.rabbitmq-plugins enable rabbitmq_management
+  4.访问http://127.0.0.1:15672 
+  5.用户名密码: guest/guest
 ```
 
 ELK
@@ -57,8 +66,8 @@ ELK
 			}
   6.rm 02-beats-input.conf  10-syslog.conf  11-nginx.conf  30-output.conf
   7.docker restart elk
-  8.测试http://39.108.236.73:9200
-  9.访问http://39.108.236.73:5601/app/kibana
+  8.测试http://127.0.0.1:9200
+  9.访问http://127.0.0.1:5601/app/kibana
 ```
 
 Filebeat
@@ -85,26 +94,24 @@ Filebeat
 Zipkin
 
  ```bash  
-  1.docker run --name zipkin
-  -d -p 9411:9411 openzipkin/zipkin
+  1.docker run --name zipkin -d -p 9411:9411 openzipkin/zipkin
   2.访问 http://127.0.0.1:9411/zipkin/ 
 ```
 
 DTM
 
  ```bash  
-  1.docker run -itd  --name dtm
-  -p 36789:36789 -p 36790:36790  yedf/dtm:1.14
+  1.docker run -itd  --name dtm -p 36789:36789 -p 36790:36790  yedf/dtm:1.14
   2.访问http://127.0.0.1:36789
 ```
 
 项目代码
   ```bash  
- 1.docker run --name hyperf
--v /workspace/skeleton:/data/project
--p 9501:9501 -p 9502:9502  -p 9503:9503  -it
---privileged -u root
---entrypoint /bin/sh
+ 1.docker run --name hyperf \
+-v /workspace/skeleton:/data/project \
+-p 9501:9501 -p 9502:9502  -p 9503:9503  -it \
+--privileged -u root \
+--entrypoint /bin/sh \
 hyperf/hyperf:8.0-alpine-v3.15-swoole-v4.8 
 2.docker exec -it hyperf /bin/bash
 3.cd /data/project/

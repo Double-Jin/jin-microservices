@@ -73,4 +73,18 @@ class UserController extends CommonController
 
         return $this->success($res);
     }
+
+    /**
+     * 投递用户消息到RabbitMQ
+     * @param RequestInterface $request
+     * @return \Psr\Http\Message\ResponseInterface
+     */
+    #[GetMapping(path: 'UserRabbitMQ')]
+    public function userRabbitMQ(RequestInterface $request)
+    {
+        //调用userService.getRpcUserStoredList方法
+        $res = $this->userService->getRpcUserRabbitMQ();
+
+        return $this->success($res);
+    }
 }

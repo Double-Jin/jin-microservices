@@ -52,4 +52,15 @@ class OrderRpcService implements OrderRpcServiceInterface
         ];
     }
 
+    /**
+     * 投递订单消息到RabbitMQ
+     * @return array
+     */
+    public function orderRabbitMQ() : array
+    {
+        return [
+            'code' => 200,
+            'data' => $this->orderService->orderRabbitMQ()
+        ];
+    }
 }

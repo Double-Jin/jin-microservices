@@ -87,4 +87,41 @@ class OrderService
         return $res['data'];
     }
 
+    /**
+     * 投递用户消息到RabbitMQ
+     * @param int $page
+     * @param int $pageSize
+     * @return mixed
+     */
+    public function getRpcOrderRabbitMQ()
+    {
+        Log::get()->info("调用getRpcUserRabbitMQ");
+
+        try {
+            //调用订单服务中的投递订单消息到RabbitMQ方法
+            $res = $this->orderRpcServiceInterface->orderRabbitMQ();
+
+        } catch (\Throwable $ex) {
+            Log::get()->info("rpc调用失败", [
+                'code' => $ex->getCode(),
+                'file' => $ex->getFile(),
+                'message' => $ex->getMessage(),
+            ]);
+
+            throw new ServiceException(430);
+        }
+
+        if ($res['code'] !== 200) {
+            Log::get()->info("rpc调用失败", [
+                'code' => $res['code'],
+                'file' => '',
+                'message' => $res['message']
+            ]);
+
+            throw new ServiceException(430);
+        }
+
+        return $res['data'];
+    }
+
 }

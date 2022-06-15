@@ -84,4 +84,17 @@ class OrderController extends CommonController
         return $this->success($res);
     }
 
+    /**
+     * 投递订单消息到RabbitMQ
+     * @param RequestInterface $request
+     * @return \Psr\Http\Message\ResponseInterface
+     */
+    #[GetMapping(path: 'OrderRabbitMQ')]
+    public function orderRabbitMQ(RequestInterface $request)
+    {
+        //调用orderService.getRpcUserStoredList方法
+        $res = $this->orderService->getRpcOrderRabbitMQ();
+
+        return $this->success($res);
+    }
 }

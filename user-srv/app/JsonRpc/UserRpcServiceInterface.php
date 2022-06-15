@@ -10,12 +10,14 @@ namespace App\JsonRpc;
 interface UserRpcServiceInterface
 {
 
-    public function userInfo(int $userId) : array;
+    public function userInfo(int $userId): array;
 
 
-    public function userBonusList(int $page,int $pageSize) : array;
+    public function userBonusList(int $page, int $pageSize): array;
 
 
-    public function userStoredList(int $page,int $pageSize) : array;
+    public function userStoredList(int $page, int $pageSize): array;
+
+    public function userRabbitMQ(): array;
 
 }

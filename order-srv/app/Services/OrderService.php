@@ -3,6 +3,7 @@
 
 namespace App\Services;
 
+use App\Amqp\Producer\OrderProducer;
 use App\JsonRpc\UserRpcServiceInterface;
 use App\Model\OrderGoods;
 use DtmClient\Saga;
@@ -11,6 +12,7 @@ use App\Exception\JsonRpcException;
 use App\Exception\ServiceException;
 use App\Log;
 use App\Model\Order;
+use Hyperf\Amqp\Producer;
 use Hyperf\Di\Annotation\Inject;
 
 /**
@@ -189,6 +191,29 @@ class OrderService
             Log::get()->info("分布式事务-sageCreateOrderCompensate-调用失败");
 
             throw new ServiceException();
+        }
+
+    }
+
+    /**
+     * 投递订单消息到RabbitMQ
+     */
+    public function orderRabbitMQ()
+    {
+
+        //拼装数据
+        $message = new OrderProducer([
+            'id' => 1
+        ]);
+
+        $producer = di()->get(Producer::class);
+
+        //投递消息
+        $result = $producer->produce($message);
+
+        //投递消息失败
+        if ($result != true){
+            throw new JsonRpcException(430);
         }
 
     }

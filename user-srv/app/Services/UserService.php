@@ -3,6 +3,8 @@
 
 namespace App\Services;
 
+use Hyperf\Amqp\Producer;
+use App\Amqp\Producer\UserProducer;
 use App\Exception\JsonRpcException;
 use App\Exception\ServiceException;
 use App\Log;
@@ -149,4 +151,26 @@ class UserService
 
     }
 
+    /**
+     * 投递用户消息到RabbitMQ
+     */
+    public function userRabbitMQ()
+    {
+
+        //拼装数据
+        $message = new UserProducer([
+            'id' => 1
+        ]);
+
+        $producer = di()->get(Producer::class);
+
+        //投递消息
+        $result = $producer->produce($message);
+
+        //投递消息失败
+        if ($result != true){
+            throw new JsonRpcException(430);
+        }
+
+    }
 }

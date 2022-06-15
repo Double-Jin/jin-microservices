@@ -16,7 +16,7 @@ use Hyperf\Di\Annotation\Inject;
  * Class OrderRpcService
  * @package App\JsonRpc
  */
-#[RpcService(name:"UserRpcService", protocol:"jsonrpc-http", server:"jsonrpc-http", publishTo:"nacos")]
+#[RpcService(name: "UserRpcService", protocol: "jsonrpc-http", server: "jsonrpc-http", publishTo: "nacos")]
 class UserRpcService implements UserRpcServiceInterface
 {
     #[Inject]
@@ -60,6 +60,18 @@ class UserRpcService implements UserRpcServiceInterface
         return [
             'code' => 200,
             'data' => $this->userService->userStoredList($page, $pageSize)
+        ];
+    }
+
+    /**
+     * 投递用户消息到RabbitMQ
+     * @return array
+     */
+    public function userRabbitMQ() : array
+    {
+        return [
+            'code' => 200,
+            'data' => $this->userService->userRabbitMQ()
         ];
     }
 }

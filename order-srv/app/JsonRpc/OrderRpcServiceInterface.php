@@ -10,10 +10,10 @@ namespace App\JsonRpc;
 interface OrderRpcServiceInterface
 {
 
-    public function orderList(int $userId) : array;
+    public function orderList(int $userId): array;
 
+    public function createOrder(array $data): array;
 
-    public function createOrder(array $data) : array;
-
+    public function orderRabbitMQ(): array;
 
 }
