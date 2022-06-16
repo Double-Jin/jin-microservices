@@ -23,6 +23,11 @@ class OrderService
     #[Inject]
     protected OrderRpcServiceInterface $orderRpcServiceInterface;
 
+    /**
+     * 订单列表
+     * @param $userId
+     * @return mixed
+     */
     public function getRpcOrderList(int $userId)
     {
         Log::get()->info("调用getRpcOrderList");
@@ -54,7 +59,11 @@ class OrderService
         return $res['data'];
     }
 
-
+    /**
+     * 创建列表
+     * @param $data
+     * @return mixed
+     */
     public function rpcCreateOrder(array $data)
     {
         Log::get()->info("调用rpcCreateOrder");
@@ -89,8 +98,6 @@ class OrderService
 
     /**
      * 投递用户消息到RabbitMQ
-     * @param int $page
-     * @param int $pageSize
      * @return mixed
      */
     public function getRpcOrderRabbitMQ()
