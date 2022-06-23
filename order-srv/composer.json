@@ -16,6 +16,7 @@
         "dtm/dtm-client": "^0.2.0",
         "hyperf/amqp": "^2.2",
         "hyperf/cache": "~2.2.0",
+        "hyperf/code-generator": "^0.3.3",
         "hyperf/command": "~2.2.0",
         "hyperf/config": "~2.2.0",
         "hyperf/config-nacos": "~2.2.0",

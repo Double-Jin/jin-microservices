@@ -120,16 +120,20 @@ hyperf/hyperf:8.0-alpine-v3.15-swoole-v4.8
     composer update
     复制.env.example为.env配置
     php bin/hyperf.php start
-6.cd jin-microservices/user_srv/
+6.cd jin-microservices/user-srv/
     composer update
     复制.env.example为.env配置
     php bin/hyperf.php migrate
     php bin/hyperf.php db:seed
     php bin/hyperf.php start
-7.cd jin-microservices/order_srv/
+7.cd jin-microservices/order-srv/
     composer update
     复制.env.example为.env配置
     php bin/hyperf.php migrate
     php bin/hyperf.php db:seed
+    php bin/hyperf.php start
+8.cd jin-microservices/task-srv/
+    composer update
+    复制.env.example为.env配置
     php bin/hyperf.php start
 ``` 

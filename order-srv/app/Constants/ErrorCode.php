@@ -1,6 +1,6 @@
 <?php
 
-declare(strict_types=1);
+declare (strict_types=1);
 /**
  * This file is part of Hyperf.
  *
@@ -14,9 +14,7 @@ namespace App\Constants;
 use Hyperf\Constants\AbstractConstants;
 use Hyperf\Constants\Annotation\Constants;
 
-/**
- * @Constants
- */
+#[Constants]
 class ErrorCode extends AbstractConstants
 {
     /**

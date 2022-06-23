@@ -1,6 +1,6 @@
 <?php
 
-declare (strict_types=1);
+declare(strict_types=1);
 /**
  * This file is part of Hyperf.
  *
@@ -18,13 +18,12 @@ use Psr\Container\ContainerInterface;
 
 abstract class AbstractController
 {
-    
     #[Inject]
     protected ContainerInterface $container;
-    
+
     #[Inject]
     protected RequestInterface $request;
-    
+
     #[Inject]
     protected ResponseInterface $response;
 }

@@ -58,6 +58,7 @@ JM 是一款基于 php 语言 + hyperf 微服务 框架编写的完整微服务d
     |-- api-gateway //网关服务项目代码 
     |-- order-srv //订单服务项目代码
     |-- user-srv // 用户服务项目代码
+    |-- task-srv // 定时任务、队列消费服务项目代码
     |-- README.md //说明文档
   ```
 

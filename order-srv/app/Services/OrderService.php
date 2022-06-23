@@ -163,6 +163,7 @@ class OrderService
             throw new ServiceException();
         }
 
+        return true;
     }
 
 
@@ -192,6 +193,8 @@ class OrderService
 
             throw new ServiceException();
         }
+
+        return true;
 
     }
 
