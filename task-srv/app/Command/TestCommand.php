@@ -7,6 +7,7 @@ namespace App\Command;
 use App\Log;
 use Hyperf\Command\Command as HyperfCommand;
 use Psr\Container\ContainerInterface;
+use Hyperf\Command\Annotation\Command;
 
 #[Command]
 class TestCommand extends HyperfCommand
