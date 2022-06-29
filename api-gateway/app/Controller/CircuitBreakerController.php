@@ -38,7 +38,7 @@ class CircuitBreakerController extends CommonController
      * @return \Psr\Http\Message\ResponseInterface
      */
     #[GetMapping(path: 'Test')]
-    #[CircuitBreaker(timeout:0.4, failCounter:1, successCounter:1, fallback:"App\Controller\CircuitBreakerController::circuitBreakerFallback")]
+    #[CircuitBreaker(options:["timeout"=>0.05],failCounter:1, successCounter:1, fallback:"App\Controller\CircuitBreakerController::circuitBreakerFallback")]
     public function test()
     {
         $this->userService->testCircuitBreaker();

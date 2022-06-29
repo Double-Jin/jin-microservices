@@ -143,7 +143,7 @@ class UserService
 
         Log::get()->info("调用testCircuitBreaker");
 
-        Coroutine::sleep(1);
+        Coroutine::sleep(2);
     }
 
     /**

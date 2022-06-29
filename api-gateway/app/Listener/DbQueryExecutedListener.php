@@ -45,7 +45,7 @@ class DbQueryExecutedListener implements ListenerInterface
     /**
      * @param QueryExecuted $event
      */
-    public function process(object $event)
+    public function process(object $event) : void
     {
         if ($event instanceof QueryExecuted) {
             $sql = $event->sql;
@@ -57,5 +57,7 @@ class DbQueryExecutedListener implements ListenerInterface
 
             $this->logger->info(sprintf('[%s] %s', $event->time, $sql));
         }
+
+        return;
     }
 }
