@@ -22,7 +22,7 @@ class TestCommand extends HyperfCommand
      *
      * @var string
      */
-    protected $name = 'TestCommand';
+    protected ?string $name = 'TestCommand';
 
 
     public function handle()
