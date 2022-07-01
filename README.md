@@ -130,6 +130,7 @@ JM 是一款基于 php 语言 + hyperf 微服务 框架编写的完整微服务d
 * 不支持gRpc的服务注册与服务发现
 * 配置中心组件只支持config调用，无法做到env的动态写入与框架重启，但可通过k8s实现
 
+
 # 感谢
 - hyperf：https://hyperf.wiki/2.2/#/README
 - dtm：https://en.dtm.pub/
