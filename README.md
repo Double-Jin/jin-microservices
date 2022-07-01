@@ -24,6 +24,7 @@ JM 是一款基于 php 语言 + hyperf 微服务 框架编写的完整微服务d
 
 * 完整微服务架构
 * JsonRpc调用
+* JWT认证
 * 统一异常处理
 * 服务注册与服务发现
 * 消息队列
@@ -71,6 +72,11 @@ JM 是一款基于 php 语言 + hyperf 微服务 框架编写的完整微服务d
   - `GET http://127.0.0.1:9501/User/UserStoredList` 通讯单一服务
   - `GET http://127.0.0.1:9501/Order/OrderList` 通讯多个服务
 
+* JWT认证
+  - `GET http://127.0.0.1:9501/Auth/Login` 用户登录
+  - `GET http://127.0.0.1:9501/Auth/Logout
+    Authorization : 	Bearer {{token}}` 用户退出登录
+    
 * 统一异常处理
   - 封装AppServiceExceptionHandler.php 统一处理http请求异常
   - 封装RateLimitExceptionHandler.php 统一处理限流异常
@@ -124,7 +130,7 @@ JM 是一款基于 php 语言 + hyperf 微服务 框架编写的完整微服务d
 * 不支持gRpc的服务注册与服务发现
 * 配置中心组件只支持config调用，无法做到env的动态写入与框架重启，但可通过k8s实现
 
-# 相关文档
+# 感谢
 - hyperf：https://hyperf.wiki/2.2/#/README
 - dtm：https://en.dtm.pub/
 - nacos：https://nacos.io/zh-cn/docs/what-is-nacos.html
