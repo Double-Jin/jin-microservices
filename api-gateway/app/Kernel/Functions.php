@@ -135,4 +135,19 @@ if (!function_exists('container')) {
     }
 }
 
+/**
+ * 获取BearerToken
+ */
+if (!function_exists('getBearerToken')) {
+    function getBearerToken($Authorization)
+    {
+        if (\Hyperf\Utils\Str::startsWith($Authorization, 'Bearer ')) {
+            return \Hyperf\Utils\Str::substr($Authorization, 7);
+        }
+
+        return null;
+    }
+}
+
+
 

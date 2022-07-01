@@ -18,4 +18,9 @@ interface UserRpcServiceInterface
 
     public function userRabbitMQ(): array;
 
+    public function userLogin(string $phone): array;
+
+    public function userLogout(string $token): array;
+
+
 }

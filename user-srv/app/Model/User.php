@@ -5,9 +5,12 @@ declare (strict_types=1);
 namespace App\Model;
 
 use Hyperf\DbConnection\Model\Model;
+use Qbhy\HyperfAuth\AuthAbility;
+use Qbhy\HyperfAuth\Authenticatable;
 
-class User extends Model
+class User extends Model implements Authenticatable
 {
+    use AuthAbility;
 
     const CREATED_AT = 'create_time';
 

@@ -7,6 +7,7 @@
 
 namespace App\JsonRpc;
 
+use App\Services\AuthService;
 use Hyperf\RpcServer\Annotation\RpcService;
 use App\Services\UserService;
 use Hyperf\Di\Annotation\Inject;
@@ -21,6 +22,9 @@ class UserRpcService implements UserRpcServiceInterface
 {
     #[Inject]
     protected UserService $userService;
+
+    #[Inject]
+    protected AuthService $authService;
 
     /**
      * 用户详情
@@ -72,6 +76,45 @@ class UserRpcService implements UserRpcServiceInterface
         return [
             'code' => 200,
             'data' => $this->userService->userRabbitMQ()
+        ];
+    }
+
+    /**
+     * 用户登录
+     * @param string $phone
+     * @return array
+     */
+    public function userLogin(string $phone): array
+    {
+        return [
+            'code' => 200,
+            'data' => $this->authService->userLogin($phone)
+        ];
+    }
+
+    /**
+     * 用户退出
+     * @param string $token
+     * @return array
+     */
+    public function userLogout(string $token): array
+    {
+        return [
+            'code' => 200,
+            'data' => $this->authService->userLogout($token)
+        ];
+    }
+
+    /**
+     * 检查用户token
+     * @param string $token
+     * @return array
+     */
+    public function userCheckToken(string $token): array
+    {
+        return [
+            'code' => 200,
+            'data' => $this->authService->userCheckToken($token)
         ];
     }
 }

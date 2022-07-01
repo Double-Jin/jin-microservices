@@ -13,6 +13,7 @@
     "license": "Apache-2.0",
     "require": {
         "php": ">=8.0",
+        "96qbhy/hyperf-auth": "^2.7",
         "dtm/dtm-client": "^0.2.0",
         "hyperf/amqp": "^2.2",
         "hyperf/cache": "~2.2.0",
