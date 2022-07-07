@@ -4,31 +4,27 @@ declare (strict_types=1);
 namespace App\Model;
 
 use Hyperf\DbConnection\Model\Model;
-
 class Order extends Model
 {
     const CREATED_AT = 'create_time';
     const UPDATED_AT = 'update_time';
 
-    protected $dateFormat = 'U';
-
+    protected ?string $dateFormat = 'U';
     /**
      * The table associated with the model.
      *
      */
-    protected $table = 'order';
-
+    protected ?string $table = 'order';
     /**
      * The attributes that are mass assignable.
      *
      */
-    protected $fillable = ['order_no', 'user_id', 'coupon_id', 'order_money', 'order_discount', 'order_fact_money', 'consume_number', 'order_status', 'payment'];
-
+    protected array $fillable = ['order_no', 'user_id', 'coupon_id', 'order_money', 'order_discount', 'order_fact_money', 'consume_number', 'order_status', 'payment'];
     /**
      * The attributes that should be cast to native types.
      *
      */
-    protected $casts = ['id' => 'integer'];
+    protected array $casts = ['id' => 'integer'];
 
     public function orderGoods()
     {

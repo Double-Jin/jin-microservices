@@ -16,19 +16,20 @@ class User extends Model implements Authenticatable
 
     const UPDATED_AT = 'update_time';
 
-    protected $dateFormat = 'U';
+    protected ?string $dateFormat = 'U';
     /**
      * The table associated with the model.
      *
      * @var string
      */
-    protected $table = 'user';
+    protected ?string $table = 'user';
+
     /**
      * The attributes that are mass assignable.
      *
      * @var array
      */
-    protected $fillable = [
+    protected array $fillable = [
         'user_name',
         'user_image',
         'phone',
@@ -39,7 +40,7 @@ class User extends Model implements Authenticatable
      *
      * @var array
      */
-    protected $casts = ['id' => 'integer'];
+    protected array $casts = ['id' => 'integer'];
 
     public function bonus()
     {

@@ -13,19 +13,19 @@ class UserBonusLog extends Model
 
     const UPDATED_AT = 'update_time';
 
-    protected $dateFormat = 'U';
+    protected ?string $dateFormat = 'U';
     /**
      * The table associated with the model.
      *
      * @var string
      */
-    protected $table = 'user_bonus_log';
+    protected ?string $table = 'user_bonus_log';
     /**
      * The attributes that are mass assignable.
      *
      * @var array
      */
-    protected $fillable = [
+    protected array $fillable = [
         'user_id',
         'type',
         'bonus',
@@ -37,6 +37,6 @@ class UserBonusLog extends Model
      *
      * @var array
      */
-    protected $casts = ['id' => 'integer'];
+    protected array $casts = ['id' => 'integer'];
 
 }

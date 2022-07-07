@@ -9,24 +9,21 @@ class OrderGoods extends Model
     const CREATED_AT = 'create_time';
     const UPDATED_AT = 'update_time';
 
-    protected $dateFormat = 'U';
-
+    protected ?string $dateFormat = 'U';
     /**
      * The table associated with the model.
      *
      */
-    protected  $table = 'order_goods';
-
+    protected ?string $table = 'order_goods';
     /**
      * The attributes that are mass assignable.
      *
      */
-    protected $fillable = ['order_no', 'goods_id', 'goods_sn', 'sku_id', 'user_id', 'goods_name', 'number', 'goods_tag_price', 'goods_real_price', 'goods_discount', 'goods_fact_money'];
-
+    protected array $fillable = ['order_no', 'goods_id', 'goods_sn', 'sku_id', 'user_id', 'goods_name', 'number', 'goods_tag_price', 'goods_real_price', 'goods_discount', 'goods_fact_money'];
     /**
      * The attributes that should be cast to native types.
      *
      * @var array
      */
-    protected $casts = ['id' => 'integer'];
+    protected array $casts = ['id' => 'integer'];
 }

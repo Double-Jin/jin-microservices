@@ -88,33 +88,41 @@ class OrderService
      */
     public function createOrder($data)
     {
+        Log::get()->info("调用createOrder");
 
-        //分布式事务
-        $data['order_no'] = date("YmdHis");
+        try {
+            //分布式事务
+            $data['order_no'] = date("YmdHis");
 
-        //获取用户储值
-        //todo
+            //获取用户储值
+            //todo
 
-        //判断商品库存
-        //todo
+            //判断商品库存
+            //todo
 
-        $this->saga->init();
-        //创建订单
-        $this->saga->add(
-            env('DTM_ORDER_URL') . '/saga/sageCreateOrder',
-            env('DTM_ORDER_URL') . '/saga/sageCreateOrderCompensate',
-            $data
-        );
+            $this->saga->init();
+            //创建订单
+            $this->saga->add(
+                env('DTM_ORDER_URL') . '/saga/sageCreateOrder',
+                env('DTM_ORDER_URL') . '/saga/sageCreateOrderCompensate',
+                $data
+            );
+            //扣用户余额
+            $this->saga->add(
+                env('DTM_USER_URL') . '/saga/changeStored',
+                env('DTM_USER_URL'). '/saga/changeStoredCompensate',
+                ['order_no'=>$data['order_no'] ,'user_id'=>$data['user_id'],'amount'=>-$data['order_fact_money']]
+            );
 
-        //扣用户余额
-        $this->saga->add(
-            env('DTM_USER_URL') . '/saga/changeStored',
-            env('DTM_USER_URL'). '/saga/changeStoredCompensate',
-            ['order_no'=>$data['order_no'] ,'user_id'=>$data['user_id'],'amount'=>-$data['order_fact_money']]
-        );
+            // 提交 Saga 事务
+            $this->saga->submit();
 
-        // 提交 Saga 事务
-        $this->saga->submit();
+        } catch (\Throwable $ex) {
+            var_dump($ex->getMessage());
+            Log::get()->info("rpc调用失败");
+
+            throw new JsonRpcException(430);
+        }
 
         return TransContext::getGid();
 
