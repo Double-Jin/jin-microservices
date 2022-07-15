@@ -13,7 +13,7 @@
     "license": "Apache-2.0",
     "require": {
         "php": ">=8.0",
-        "dtm/dtm-client": "dev-feature/3.0",
+        "dtm/dtm-client": "dev-3.0-dev",
         "hyperf/amqp": "^3.0",
         "hyperf/cache": "^3.0",
         "hyperf/command": "^3.0",
