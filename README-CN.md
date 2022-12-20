@@ -86,7 +86,7 @@ JM 是一款基于 php 语言 + hyperf 微服务 框架编写的完整微服务d
 
 * 文件上传
   - 微服务中rpc是轻量级通信框架，擅长传输字符串。对于文本文件传输不太友好，
-  而对于文件如果强行都成String，就会是一堆乱码。因此，大致的解决思路是，不管文件类型，统统转化成二进制，再将二进制进行Base64编码成String，传输编码后的String到后台，后台按照Base64解码还原成二进制，通过二进制构造File对象即可。
+  而对于文件如果强行都成String，就会是一堆乱码。因此，大致的解决思路是，不管文件类型，统统转化成二进制，再将二进制进行Base64编码成String，传输编码后的String到RPC服务，RPC服务按照Base64解码还原成二进制，通过二进制构造File对象即可。
   - `POST http://127.0.0.1:9501/File/UploadFile` 文件转为base64字符串通过json-rpc传输
   - `file-srv.app.JsonRpc.FileRpcService.uploadFile` 通过json-rpc接收base64字符串生成文件
 
