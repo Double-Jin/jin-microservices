@@ -27,6 +27,7 @@ JM 是一款基于 php 语言 + hyperf 微服务 框架编写的完整微服务d
 * 完整微服务架构
 * JsonRpc调用
 * JWT认证
+* 文件上传
 * 统一异常处理
 * 服务注册与服务发现
 * 消息队列
@@ -60,6 +61,7 @@ JM 是一款基于 php 语言 + hyperf 微服务 框架编写的完整微服务d
   ```
     |-- api-gateway //网关服务项目代码 
     |-- order-srv //订单服务项目代码
+    |-- fIle-srv //文件服务项目代码
     |-- user-srv // 用户服务项目代码
     |-- task-srv // 定时任务、队列消费服务项目代码
     |-- doc // 文档目录
@@ -80,7 +82,15 @@ JM 是一款基于 php 语言 + hyperf 微服务 框架编写的完整微服务d
   - `GET http://127.0.0.1:9501/Auth/Login` 用户登录
   - `GET http://127.0.0.1:9501/Auth/Logout
     Authorization : 	Bearer {{token}}` 用户退出登录
-    
+
+
+* 文件上传
+  - 微服务中rpc是轻量级通信框架，擅长传输字符串。对于文本文件传输不太友好，
+  而对于文件如果强行都成String，就会是一堆乱码。因此，大致的解决思路是，不管文件类型，统统转化成二进制，再将二进制进行Base64编码成String，传输编码后的String到后台，后台按照Base64解码还原成二进制，通过二进制构造File对象即可。
+  - `POST http://127.0.0.1:9501/File/UploadFile` 文件转为base64字符串通过json-rpc传输
+  - `file-srv.app.JsonRpc.FileRpcService.uploadFile` 通过json-rpc接收base64字符串生成文件
+
+
 * 统一异常处理
   - 封装AppServiceExceptionHandler.php 统一处理http请求异常
   - 封装RateLimitExceptionHandler.php 统一处理限流异常

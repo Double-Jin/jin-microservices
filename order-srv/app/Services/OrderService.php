@@ -118,7 +118,6 @@ class OrderService
             $this->saga->submit();
 
         } catch (\Throwable $ex) {
-            var_dump($ex->getMessage());
             Log::get()->info("rpc调用失败");
 
             throw new JsonRpcException(430);

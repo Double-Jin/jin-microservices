@@ -27,6 +27,7 @@ The components mentioned below are not only used in microservice architecture, s
 * Complete microservice architecture
 * JsonRpc call
 * Jwt authority authentication
+* Upload the file
 * Unified exception handling
 * Service Registration and Service Discovery
 * Message queue
@@ -80,7 +81,16 @@ Microservices are an architecture that splits a monolithic application. By using
   - `GET http://127.0.0.1:9501/Auth/Login` User login
   - `GET http://127.0.0.1:9501/Auth/Logout
     Authorization : 	Bearer {{token}}` User logged out
-    
+
+
+* Upload the file
+  - RPC in microservices is a lightweight communication framework that is good at transporting strings. Not very friendly for text file transfers,
+    And for the file if it is forced into String, it will be a bunch of garbled characters. Therefore, the general solution idea is that regardless of the file type, 
+  - all are converted into binary, and then the binary is Base64 encoded into String, and the encoded String is transferred to the background, and the background is restored to binary according to Base64 decoding, and the File object can be constructed through binary.
+  - `POST http://127.0.0.1:9501/File/UploadFile` The file is converted to a base64 string and transferred via json-rpc
+  - `file-srv.app.JsonRpc.FileRpcService.uploadFile` Generate a file by receiving a base64 string via json-rpc
+
+
 * Unified exception handling
   - Encapsulate AppServiceExceptionHandler.php http request exceptions
   - Encapsulate RateLimitExceptionHandler.php current limiting exceptions
