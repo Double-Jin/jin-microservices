@@ -21,7 +21,7 @@ Nacos
   2.访问http://127.0.0.1:8848/nacos/#/login
   3.用户名密码: nacos/nacos
   4.命名空间->新建命名空间->增加空间 `dev`
-  5.配置管理->配置列表->dev->导入配置->/jin-microservices/nacos_config.zip
+  5.配置管理->配置列表->dev->导入配置->/jin-microservices/doc/nacos_config.zip
 ```
 
 Rabbitmq
@@ -133,6 +133,10 @@ hyperf/hyperf:8.0-alpine-v3.15-swoole-v4.8
     php bin/hyperf.php db:seed
     php bin/hyperf.php start
 8.cd jin-microservices/task-srv/
+    composer update
+    复制.env.example为.env配置
+    php bin/hyperf.php start
+9.cd jin-microservices/file-srv/
     composer update
     复制.env.example为.env配置
     php bin/hyperf.php start

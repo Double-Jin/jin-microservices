@@ -42,7 +42,7 @@ docker-compose
  14.访问http://127.0.0.1:8848/nacos/#/login
  15.用户名密码: nacos/nacos
  16.命名空间->新建命名空间->增加空间 `dev`
- 17.配置管理->配置列表->dev->导入配置->/jin-microservices/nacos_config.zip
+ 17.配置管理->配置列表->dev->导入配置->/jin-microservices/doc/nacos_config.zip
 ```
 
 Filebeat
@@ -98,6 +98,10 @@ Filebeat
     php bin/hyperf.php db:seed
     php bin/hyperf.php start
 7.cd jin-microservices/task-srv/
+    composer update
+    复制.env.example为.env配置
+    php bin/hyperf.php start
+8.cd jin-microservices/file-srv/
     composer update
     复制.env.example为.env配置
     php bin/hyperf.php start
