@@ -25,6 +25,13 @@ return [
             'callbacks' => [
                 Event::ON_REQUEST => [\Hyperf\JsonRpc\HttpServer::class, 'onRequest'],
             ],
+            'settings' => [
+                'open_length_check' => true,
+                'package_length_type' => 'N',
+                'package_length_offset' => 0,
+                'package_body_offset' => 4,
+                'package_max_length' => 1024 * 1024 * 20,
+            ],
         ],
     ],
     'settings' => [

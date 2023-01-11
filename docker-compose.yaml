@@ -10,6 +10,7 @@ services:
       - 9501:9501
       - 9502:9502
       - 9503:9503
+      - 9507:9507
     volumes:
       - /Users/linjinjin/Documents/dnmp/www:/data/www
     tty: true

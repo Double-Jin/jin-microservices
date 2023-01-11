@@ -109,7 +109,7 @@ DTM
   ```bash  
  1.docker run --name hyperf \
 -v /workspace/skeleton:/data/project \
--p 9501:9501 -p 9502:9502  -p 9503:9503  -it \
+-p 9501:9501 -p 9502:9502  -p 9503:9503  -it  -p 9507:9507  -it \
 --privileged -u root \
 --entrypoint /bin/sh \
 hyperf/hyperf:8.0-alpine-v3.15-swoole-v4.8 
