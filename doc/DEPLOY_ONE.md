@@ -112,7 +112,7 @@ DTM
 -p 9501:9501 -p 9502:9502  -p 9503:9503  -it  -p 9507:9507  -it \
 --privileged -u root \
 --entrypoint /bin/sh \
-hyperf/hyperf:8.0-alpine-v3.15-swoole-v4.8 
+hyperf/hyperf:8.1-alpine-v3.15-swoole-v5
 2.docker exec -it hyperf /bin/bash
 3.cd /data/project/
 4.git clone https://github.com/Double-Jin/jin-microservices.git

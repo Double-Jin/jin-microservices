@@ -2,7 +2,7 @@ version: '3.9'
 services:
   hyperf:
     container_name: hyperf
-    image: hyperf/hyperf:8.0-alpine-v3.15-swoole-v4.8
+    image: hyperf/hyperf:8.1-alpine-v3.15-swoole-v5
     hostname: hyperf
     restart: always
     privileged: true
